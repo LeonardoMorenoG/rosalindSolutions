@@ -6,6 +6,7 @@ Methods useful in rosalind bioinformatic algorithms
 """
 
 # Libraries
+from __future__ import division; # Needed in order to avoid weird rounding practices in Python 2
 from itertools import izip; # Needed to create dictionaries from lists more efficiently than zip
 
 # Methods
@@ -43,6 +44,15 @@ def loadSeqs(pFile):
 
 
 """
+Output data to output.txt in Output folder.
+"""
+def output(out):
+    fOut = open("Output/output.txt","w+"); # create or open file in writing mode
+    fOut.write(out); # write output to file
+    fOut.close(); # close file
+
+
+"""
 Takes two strings, 
 returns list with indexes of occurrences of second string inside first
 """
@@ -70,6 +80,46 @@ Counts As, Ts, Cs, and Gs in DNA sequence. Returns dictionary with nucleotides a
 def count(seq):
     atcg = {"A":seq.count("A"), "T":seq.count("T"), "G":seq.count("G"), "C":seq.count("C")};
     return atcg;
+
+
+"""
+Takes dictionary of keys=sequence Fasta names, values=sequences
+Returns list with max GC content, name of sequence with max GC content
+"""
+def gcContent(pData):
+    max = [0, 0]; # stores maximum GC
+    for seq in pData.keys(): # for every sequence
+        GC = 0; # Counts number of occurrences of G or C
+        for j in pData[seq]: # for every letter in sequence
+            if j == "G" or j == "C": # if letter is G or C
+                GC += 1; # add one to GC counter
+                
+            if GC > max[0]: # if GC content of this sequence is greater than the previous maximum,
+                max = [GC, seq]; # store this content and the sequence name as maximum
+                
+    max[0] = 100*max[0]/len(pData[max[1]]); # Stores GC content for this sequence as percentage
+    return max;
+
+
+"""
+Takes dictionary of keys=sequence Fasta names, values=sequences
+Return dictionary with { consensus: consensus sequence (string), nucleotide: profile (list of nucleotide frequency in each position)
+"""
+def consensus(data):
+    l = len(data.values()[0]); # Stores length of DNA sequences analyzed
+    C = { "consensus":"", "A":[0]*l, "T":[0]*l, "C":[0]*l, "G":[0]*l } # Dictionary with consensus sequence and lists of size l, stores consensus sequence and occurrences of nucleotide in all sequences for each position
+    
+    # Build profile matrix:
+    for seq in data.values(): # For every sequence
+        for b in range(0,l): # For every base in sequence
+            C[seq[b]][b] = C[seq[b]][b] + 1; # Add one to count of corresponding nucleotide at corresponding position
+    
+    # Build consensus sequence:
+    for p in range(0,l): # For every position in sequence
+        S = { C["A"][p]:"A", C["T"][p]:"T", C["C"][p]:"C", C["G"][p]:"G" } # Define a dictionary that relates the number of occurrences in all sequences of each nucleotide at the current position to the nucleotide's letter
+        C["consensus"] = C["consensus"] + S[max(S.keys())]; # Adds nucleotide letter with most occurrences at this position to the consensus sequence
+    
+    return C;
 
 
 """
