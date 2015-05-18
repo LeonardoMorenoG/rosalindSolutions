@@ -2,7 +2,7 @@
 """
 Created on Sun May 17 17:55:17 2015
 Methods useful in rosalind bioinformatic algorithms
-@author: Palo
+@author: Pablo the awesome molecular jedi
 """
 
 # Libraries
@@ -28,6 +28,7 @@ def loadFastas(pFile):
     
     seqDic = dict(izip(strNames, d)); # Creates dictionary with seq names as keys and seq strings as values.
     return seqDic; # returns dictionary
+
 
 """
 Takes file with multiple DNA sequences separated by a newline \n escape sequence, 
@@ -61,3 +62,67 @@ def findMotif(pSeq, pMotif):
         indexes = "Motif not found."; # say so.
         
     return indexes;
+
+
+"""
+Counts As, Ts, Cs, and Gs in DNA sequence. Returns dictionary with nucleotides as keys.
+"""
+def count(seq):
+    atcg = {"A":seq.count("A"), "T":seq.count("T"), "G":seq.count("G"), "C":seq.count("C")};
+    return atcg;
+
+
+"""
+Transcribes DNA to RNA
+"""
+def transcribe(dna):
+    rna = dna.replace("T", "U");
+    return rna;
+
+
+"""
+Returns genetic code dictionary. Stop codons are "*"
+"""
+def geneticCode():
+    code = {'CGA':'R','UUU':'F','UUC':'F',
+      'UUA':'L','UUG':'L','UCU':'S',
+      'UCC':'S','UCA':'S','UCG':'S',
+      'UAU':'Y','UAC':'Y','UAA':'*',
+      'UAG':'*','UGU':'C','UGC':'C',
+      'UGA':'*','UGG':'W','CUU':'L',
+      'CUC':'L','CUA':'L','CUG':'L',
+      'CCU':'P','CCC':'P','CCA':'P',
+      'CCG':'P','CAU':'H','CAC':'H',
+      'CAA':'Q','CAG':'Q','CGU':'R',
+      'CGC':'R','AGA':'R','CGG':'R',
+      'AUU':'I','AUC':'I','AUA':'I',
+      'AUG':'M','ACU':'T','ACC':'T',
+      'ACA':'T','ACG':'T','AAU':'N',
+      'AAC':'N','AAA':'K','AAG':'K',
+      'AGU':'S','AGC':'S','GGA':'G',
+      'AGG':'R','GUU':'V','GUC':'V',
+      'GUA':'V','GUG':'V','GCU':'A',
+      'GCC':'A','GCA':'A','GCG':'A',
+      'GAU':'D','GAC':'D','GAA':'E',
+      'GAG':'E','GGU':'G','GGC':'G',
+      'GGG':'G' 
+      };
+    return code;
+
+
+"""
+Translates RNA to protein (takes rna string, returns peptide string).
+"""
+def translate(seq):
+    code = geneticCode(); # Stores genetic code
+    pep = ""; # stores peptide sequence
+    i = 0; # position on RNA sequence
+    while i < len(seq): # for every codon
+        codon = seq[i:(i+3)]; # get current codon
+        aa = code[codon]; # get aminoacid
+        if (aa != "*"): # if not a stop codon
+            pep = pep + aa; # add residue to peptide
+            i = i+3; # next codon
+        else: # if codon is stop
+            i = len(seq); # stop loop
+    return pep;
