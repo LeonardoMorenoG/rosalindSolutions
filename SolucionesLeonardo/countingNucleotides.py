@@ -12,7 +12,6 @@ Usage python name file1 file2
 
 import sys
 
-
 def countNucleotides(aSequence): 
     """
     Counts the number of each nucleotide in a sequence.
@@ -27,12 +26,20 @@ def countNucleotides(aSequence):
     count : list
         List with the number of each nucleotide in a sequence. The order is A T G C
     """
-    count = []
-    count.append(aSequence.count("A"))
-    count.append(aSequence.count("T"))
-    count.append(aSequence.count("G"))
-    count.append(aSequence.count("C"))
-    return count
+
+    count = [0,0,0,0]
+    for nucleotide in aSequence:
+        if nucleotide == "A":
+            count[0] += 1
+        elif nucleotide == "C":
+            count[1] += 1            
+        elif nucleotide == "G":
+            count[2] += 1            
+        elif nucleotide == "T":
+            count[3] += 1
+    finalCount = {"A":count[0],"C":count[1],"G":count[2],"T":count[3]}
+    return finalCount
+
 
 if __name__ == "__main__":
     #Instantiating Variables
