@@ -1,35 +1,17 @@
-from __future__ import division;
-from sys import argv;
+# -*- coding: utf-8 -*-
+"""
+Created on ??? 2015
+GC CONTENT
+@author: Pablo the awesome molecular jedi
+"""
+# Libraries
+from sys import argv; # Needed for receiving user input
+from rosalindUtils import loadFastas, gcContent; # Imports utils
 
-script, filename = argv;
+# Run program
+script, filename = argv; # From console, argv returns script name, arguments
+data = loadFastas(filename); # load data
 
-txt = open(filename);
-rawData = txt.read();
-
-data = rawData.lstrip(">");
-data = data.split(">");
-
-data[:] = [i.split("\n", 1) for i in data];
-print data;
-strNames = [];
-for i in data:
-	strNames.append(i[0]);
-
-data[:] = [i[1].split("\n") for i in data];
-data[:] = ["".join(i) for i in data];
-
-max = [0, 0];
-for i in range(0, len(data)):
-	GC = 0;
-	for j in data[i]:
-		if j == "G" or j == "C":
-			GC += 1;
-			
-	GCpercent = 100*GC/len(data[i]);
-	#strNames[i].append(GCpercent);
-	if GCpercent > max[0]:
-		max = [GCpercent, strNames[i]];
-	
-	if i == len(data)-1:
-		print max[1];
-		print max[0];
+maxGC = gcContent(data);
+print(maxGC[1]); # prints max GC content sequence's name
+print(maxGC[0]); # prints max GC content
