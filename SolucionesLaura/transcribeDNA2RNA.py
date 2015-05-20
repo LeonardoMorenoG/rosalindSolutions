@@ -1,13 +1,17 @@
+#!/usr/bin/python
 """
-Transcribing DNA into RNA
-@author: lemoga
-Let s a cDNA string and t the transcription of s
-Given: s
-Return: t
+Transcribing cDNA into mRNA
+@author: laurag
+v1.0 06/05/2015
+Let s a cDNA string
+Given: A cDNA string s 
+Return: An RNA string t, converting T into U
+Usage python program file1 file2
 """
+
 import sys
 
-def dna2rna(s):
+def transcribe(s): 
     """
     Transcribe cDNA into RNA
     
@@ -23,14 +27,18 @@ def dna2rna(s):
     """
     t = s.replace("T","U")
     return t 
-
+    
 if __name__ == "__main__":
+   
+    #Instantiating Variables
+    sequence = ""
+    
     #Get the sequence
     fr =  open(sys.argv[1],"r")
     sequence = fr.readline()
     fr.close()
     
-    #Write the answer
+    #Transcribe and Write the file
     fw = open(sys.argv[2],"w")
-    fw.write(dna2rna(sequence))
+    fw.write(transcribe(sequence))
     fw.close()
