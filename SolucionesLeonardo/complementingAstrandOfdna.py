@@ -32,18 +32,13 @@ def complementStrand(aStrand):
     cdna = cdna[::-1]
     return cdna
 
-#Get the sequence
-fr = open(sys.argv[1],"r")
-dna = fr.readline()
-fr.close()
-
-#Write the answer
-fw = open(sys.argv[2],"w")
-fw.write(complementStrand(dna))
-fw.close()
-
-"""
-I could do this
-dna.replacce("A","a").replace("T","a").replace("G","c").replace("C","g").upper()
-and then print dna[::-1]
-"""
+if __name__ == "__main__":
+    #Get the sequence
+    fr = open(sys.argv[1],"r")
+    dna = fr.readline()
+    fr.close()
+    
+    #Write the answer
+    fw = open(sys.argv[2],"w")
+    fw.write(complementStrand(dna))
+    fw.close()

@@ -24,12 +24,13 @@ def dna2rna(s):
     t = s.replace("T","U")
     return t 
 
-#Get the sequence
-fr =  open(sys.argv[1],"r")
-sequence = fr.readline()
-fr.close()
-
-#Write the answer
-fw = open(sys.argv[2],"w")
-fw.write(dna2rna(sequence))
-fw.close()
+if __name__ == "__main__":
+    #Get the sequence
+    fr =  open(sys.argv[1],"r")
+    sequence = fr.readline()
+    fr.close()
+    
+    #Write the answer
+    fw = open(sys.argv[2],"w")
+    fw.write(dna2rna(sequence))
+    fw.close()
